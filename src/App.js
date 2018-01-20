@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import yaml from 'js-yaml'
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   Grid,
   Row,
-  Col
+  Col,
 } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -47,7 +46,6 @@ class App extends Component {
     this.state = {
       data: {}
     };
-    this.updateInputValue = this.updateInputValue.bind(this)
 
     axios.get("https://raw.githubusercontent.com/hacking-thursday/yuan-data/master/autogen/data.json")
       .then(res => {
@@ -55,14 +53,10 @@ class App extends Component {
           data: res.data
         })
         this.forceUpdate()
+        console.log(res)
+        console.log(this.state.data)
       });
 
-  }
-
-  updateInputValue(evt) {
-    this.setState({
-      inputValue: evt.target.value
-    });
   }
 
   getJumbotron() {
@@ -107,11 +101,12 @@ class App extends Component {
     const header = this.getHeader()
     const rows = this.getProjects()
 
+
     return (
-      <Grid>
-        {header}
-        {rows}
-      </Grid>
+        <Grid>
+          {header}
+          {rows}
+        </Grid>
     );
   }
 }
