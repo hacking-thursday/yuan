@@ -14,11 +14,11 @@ class ProjectCell extends Component {
   render() {
     const data = this.props.data
     const skills = data.skills.map(i => {
-      return <span class="badge badge-pill badge-info">{i}</span>
+      return <span><span class="badge badge-pill badge-info">{i}</span> </span>
     })
     console.log(data)
     const domains = data.domains.map(i => {
-      return <span class="badge badge-primary">{i}</span>
+      return <span><span class="badge badge-warning">{i}</span> </span>
     })
 
     const links = data.links.map(i => {
@@ -28,8 +28,8 @@ class ProjectCell extends Component {
     return (
       <div class="card">
         <div class="card-body">
-          <img class="card-img-top" src={data.cover} alt="Card cap"/>
-          <h5 class="card-title">{data.name}</h5>
+          <a href={data.entry}><img class="card-img-top" src={data.cover} alt="Card cap"/></a>
+          <h5 class="card-title"><a href={data.entry}>{data.name}</a></h5>
           <p class="card-text">{data.description}</p>
           <div>{skills}</div>
           <div>{domains}</div>
