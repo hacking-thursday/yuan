@@ -65,10 +65,20 @@ class App extends Component {
     });
   }
 
+  getJumbotron() {
+    return(
+      <div class="jumbotron">
+        <h1 class="display-3">Yuan</h1>
+        <p class="lead">開放原始碼專案媒合平台</p>
+      </div>
+    )
+  }
+
   getHeader() {
+    const jumbotron = this.getJumbotron()
     return (<Row>
               <Col sm={12} md={12} lg={12}>
-                <input value={this.state.inputValue} type="text" onChange={this.updateInputValue}/>
+                {jumbotron}
               </Col>
             </Row>)
   }
@@ -95,6 +105,7 @@ class App extends Component {
 
   render() {
     const header = this.getHeader()
+                <input value={this.state.inputValue} type="text" onChange={this.updateInputValue}/>
     const rows = this.getProjects()
 
     return (
