@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import yaml from 'js-yaml'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -10,37 +9,16 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 
-var raw = `
 
----
-name: FarmBot
-description: FarmBot Software Architecture.
-cover: https://avatars2.githubusercontent.com/u/5784869?s=200&v=4
-entry: "#"
-contact:
-- your@email.com
-- twitter account
-links:
-- title: Facebook
-  url: https://www.facebook.com/groups/FarmBotTUG/
-  icon: https://raw.githubusercontent.com/hacking-thursday/yuan/master/icons/webicon-facebook-m.png
-- title: GitHub
-  url: https://github.com/FBTUG
-  icon: https://raw.githubusercontent.com/hacking-thursday/yuan/master/icons/webicon-github-m.png
-skills:
-- OS
-- Web
-- Arduino
-domains:
-other: String. Put anything you want to said.
-
-
-`
 class ProjectCell extends Component {
   render() {
     const data = this.props.data
     const skills = data.skills.map(i => {
-      return <span class="badge badge-info">{i}</span>
+      return <span class="badge badge-pill badge-info">{i}</span>
+    })
+    console.log(data)
+    const domains = data.domains.map(i => {
+      return <span class="badge badge-primary">{i}</span>
     })
 
     const links = data.links.map(i => {
@@ -50,10 +28,11 @@ class ProjectCell extends Component {
     return (
       <div class="card">
         <div class="card-body">
-          <img class="card-img-top" src={data.cover} alt="Card image cap"/>
+          <img class="card-img-top" src={data.cover} alt="Card cap"/>
           <h5 class="card-title">{data.name}</h5>
           <p class="card-text">{data.description}</p>
           <div>{skills}</div>
+          <div>{domains}</div>
           <div>{links}</div>
 
         </div>
@@ -66,14 +45,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: 'GG'
+      data: {}
     };
     this.updateInputValue = this.updateInputValue.bind(this)
 
-//    axios.get("https://api.github.com/repos/kjelly/auto_config/contents/roles")
-//      .then(res => {
-//        console.log(res)
-//      });
+    axios.get("https://raw.githubusercontent.com/hacking-thursday/yuan-data/master/autogen/data.json")
+      .then(res => {
+        this.setState({
+          data: res.data
+        })
+        this.forceUpdate()
+      });
 
   }
 
@@ -92,13 +74,15 @@ class App extends Component {
   }
 
   getProjects() {
-    var arr = [1, 2, 3, 4, 5, 6]
+    if( this.state.data.projects === undefined) {
+      return <Row></Row>
+    }
+    var projects = this.state.data.projects
     const rows = []
     var cols = []
-    const data = yaml.load(raw)
-    for (var i = 0; i < arr.length; i++){
+    for (var i = 0; i < projects.length; i++){
       cols.push(
-        <Col sm={3} md={3} lg={3}> <ProjectCell data={data}></ProjectCell> </Col>
+        <Col sm={3} md={3} lg={3}> <ProjectCell data={projects[i]}></ProjectCell> </Col>
       )
       if ( i % 4 === 3 ){
         rows.push(<Row>{cols}</Row>)
@@ -106,15 +90,12 @@ class App extends Component {
       }
     }
     rows.push(<Row>{cols}</Row>)
-    console.log(rows)
     return rows
   }
 
   render() {
-
     const header = this.getHeader()
     const rows = this.getProjects()
-
 
     return (
       <Grid>
