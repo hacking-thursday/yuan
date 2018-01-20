@@ -105,7 +105,6 @@ class App extends Component {
 
   render() {
     const header = this.getHeader()
-                <input value={this.state.inputValue} type="text" onChange={this.updateInputValue}/>
     const rows = this.getProjects()
 
     return (
