@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Route, Link} from 'react-router-dom'
+import {BrowserRouter, Route, Link, Switch} from 'react-router-dom'
 import './index.css';
 import App from './App';
 import MyNavbar from './MyNavbar.js'
@@ -11,9 +11,9 @@ const component = ReactDOM.render((
   <p>
     <MyNavbar/>
     <BrowserRouter>
-      <div>
-        <Route exact path="/" component={App}/>
-      </div>
+      <Switch>
+        <Route component={App}/>
+      </Switch>
     </BrowserRouter>
   </p>
 
