@@ -63,7 +63,7 @@ class App extends Component {
     return(
       <div class="jumbotron">
         <h1 class="display-3">Yuan</h1>
-        <p class="lead">開放原始碼專案媒合平台</p>
+        <p class="lead">增加開放原始碼專案效益，媒合提案者與貢獻者，建立良好的軟體開發流程。</p>
       </div>
     )
   }
