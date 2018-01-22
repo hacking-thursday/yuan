@@ -13,8 +13,11 @@ class MyNavbar extends Component {
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="https://github.com/hacking-thursday/yuan-data"> 如何新增新專案</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://gitter.im/hacking-thursday/yuan-data">聊天室</a>
       </li>
     </ul>
   </div>
