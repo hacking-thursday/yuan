@@ -11,6 +11,10 @@ class ProjectCell extends Component {
       return <span key={ i }><span className='badge badge-warning'>{ i }</span> </span>
     })
 
+    const tags = data.tags.map(i => {
+      return <span key={ i }><span className='badge badge-primary'>{ i }</span> </span>
+    })
+
     const links = data.links.map(i => {
       return (<a key={ i } href={ i.url }><img src={ i.icon } alt={ i.title }></img> </a>)
     })
@@ -28,6 +32,9 @@ class ProjectCell extends Component {
           </div>
           <div>
             { domains }
+          </div>
+          <div>
+            { tags }
           </div>
           <div>
             { links }
