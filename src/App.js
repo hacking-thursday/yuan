@@ -78,56 +78,60 @@ class App extends Component {
   }
 
   getSkills() {
-    if( this.state.data.projects != undefined) {
-    var projects = this.state.data.projects
-    var skills = []
-    var skills_checkbox = []
-    for (var i=0; i < projects.length; i++) {
-      for (var j=0; j < projects[i].skills.length; j++) {
-        if ( skills.indexOf(projects[i].skills[j]) == -1 ) {
-          skills.push(projects[i].skills[j])
+    if( this.state.data.projects === undefined) {
+      return []
+    } else {
+      var projects = this.state.data.projects
+      var skills = []
+      var skills_checkbox = []
+      for (var i=0; i < projects.length; i++) {
+        for (var j=0; j < projects[i].skills.length; j++) {
+          if ( skills.indexOf(projects[i].skills[j]) == -1 ) {
+            skills.push(projects[i].skills[j])
+          }
         }
       }
-    }
 
-    skills = skills.sort()
-    for (var i=0; i < skills.length; i++) {
-        //skills_checkbox.push(<input type="checkbox" value={skills[i]} /> {skills[i]})
-        skills_checkbox.push(<label>
-          <input type="checkbox" value={skills[i]} />
-          {skills[i]}
-        </label>
-        )
-    }
+      skills = skills.sort()
+      for (var i=0; i < skills.length; i++) {
+          //skills_checkbox.push(<input type="checkbox" value={skills[i]} /> {skills[i]})
+          skills_checkbox.push(<label>
+            <input type="checkbox" value={skills[i]} />
+            {skills[i]}
+          </label>
+          )
+      }
 
-    return skills_checkbox
+      return skills_checkbox
     }
   }
 
   getDomains() {
-    if( this.state.data.projects != undefined) {
-    var projects = this.state.data.projects
-    var domains = []
-    var domains_checkbox = []
-    for (var i=0; i < projects.length; i++) {
-      for (var j=0; j < projects[i].domains.length; j++) {
-        if ( domains.indexOf(projects[i].domains[j]) == -1 ) {
-          domains.push(projects[i].domains[j])
+    if( this.state.data.projects === undefined) {
+      return []
+    } else {
+      var projects = this.state.data.projects
+      var domains = []
+      var domains_checkbox = []
+      for (var i=0; i < projects.length; i++) {
+        for (var j=0; j < projects[i].domains.length; j++) {
+          if ( domains.indexOf(projects[i].domains[j]) == -1 ) {
+            domains.push(projects[i].domains[j])
+          }
         }
       }
-    }
 
-    domains = domains.sort()
-    for (var i=0; i < domains.length; i++) {
-        //domains_checkbox.push(<input type="checkbox" value={domains[i]} /> {domains[i]})
-        domains_checkbox.push(<label>
-          <input type="checkbox" value={domains[i]} />
-          {domains[i]}
-        </label>
-        )
-    }
+      domains = domains.sort()
+      for (var i=0; i < domains.length; i++) {
+          //domains_checkbox.push(<input type="checkbox" value={domains[i]} /> {domains[i]})
+          domains_checkbox.push(<label>
+            <input type="checkbox" value={domains[i]} />
+            {domains[i]}
+          </label>
+          )
+      }
 
-    return domains_checkbox
+      return domains_checkbox
     }
   }
 
