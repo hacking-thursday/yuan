@@ -43,7 +43,7 @@ class App extends Component {
 
   getSkills() {
     if (this.state.data.projects === undefined) {
-      return []
+      return ""
     } else {
       var projects = this.state.data.projects
       var skills = []
@@ -58,7 +58,6 @@ class App extends Component {
 
       skills = skills.sort()
       for (var i = 0; i < skills.length; i++) {
-        //skills_checkbox.push(<input type="checkbox" value={skills[i]} /> {skills[i]})
         skills_checkbox.push(<label>
                                <input type='checkbox' value={ skills[i] } />
                                { skills[i] }
@@ -72,7 +71,7 @@ class App extends Component {
 
   getDomains() {
     if (this.state.data.projects === undefined) {
-      return []
+      return ""
     } else {
       var projects = this.state.data.projects
       var domains = []
@@ -87,7 +86,6 @@ class App extends Component {
 
       domains = domains.sort()
       for (var i = 0; i < domains.length; i++) {
-        //domains_checkbox.push(<input type="checkbox" value={domains[i]} /> {domains[i]})
         domains_checkbox.push(<label>
                                 <input type='checkbox' value={ domains[i] } />
                                 { domains[i] }
@@ -134,10 +132,10 @@ class App extends Component {
 
     return (
       <Grid>
-        { header } 技能：
-        { skills }
-        <br/> 領域：
-        { domains }
+        { header }
+        技能：{ skills }
+        <br/>
+        領域：{ domains }
         { rows }
       </Grid>
       );
