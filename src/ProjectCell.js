@@ -5,14 +5,14 @@ class ProjectCell extends Component {
   render() {
     const data = this.props.data
     const skills = data.skills.map(i => {
-      return <span key={ i }><span key={ i } className='badge badge-pill badge-info'>{ i }</span> </span>
+      return <span key={ data.name + i }><span className='badge badge-pill badge-info'>{ i }</span> </span>
     })
     const domains = data.domains.map(i => {
-      return <span key={ i }><span className='badge badge-warning'>{ i }</span> </span>
+      return <span key={ data.name + i }><span className='badge badge-warning'>{ i }</span> </span>
     })
 
     const links = data.links.map(i => {
-      return (<a key={ i } href={ i.url }><img src={ i.icon } alt={ i.title }></img> </a>)
+      return (<a key={ data.name + i.url } href={ i.url }><img src={ i.icon } alt={ i.title }></img> </a>)
     })
 
     return (

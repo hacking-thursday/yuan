@@ -61,7 +61,6 @@ class App extends Component {
     }else{
       this[selectedKey].delete(e.target.value)
     }
-    console.log(this.selectedSkills)
     var projects = this.state.data.projects.filter(o => {
       if (this[selectedKey].size === 0) {
         return true
@@ -80,18 +79,19 @@ class App extends Component {
       var projects = this.state.data.projects
       var skills = []
       var skills_checkbox = []
-      for (var i = 0; i < projects.length; i++) {
+      var i
+      for (i = 0; i < projects.length; i++) {
         for (var j = 0; j < projects[i].skills.length; j++) {
-          if (skills.indexOf(projects[i].skills[j]) == -1) {
+          if (skills.indexOf(projects[i].skills[j]) === -1) {
             skills.push(projects[i].skills[j])
           }
         }
       }
 
       skills = skills.sort()
-      for (var i = 0; i < skills.length; i++) {
-        skills_checkbox.push(<label>
-                               <input type='checkbox' value={ skills[i] } onChange={this.checkboxOnChange.bind(this, 'skills')} />
+      for (i = 0; i < skills.length; i++) {
+        skills_checkbox.push(<label key={ skills[i] + "skillslabel" } >
+                               <input type='checkbox' key={ skills[i] + "skillsinput" } value={ skills[i] } onChange={this.checkboxOnChange.bind(this, 'skills')} />
                                { skills[i] }
                              </label>
         )
@@ -108,17 +108,18 @@ class App extends Component {
       var projects = this.state.data.projects
       var domains = []
       var domains_checkbox = []
-      for (var i = 0; i < projects.length; i++) {
+      var i
+      for (i = 0; i < projects.length; i++) {
         for (var j = 0; j < projects[i].domains.length; j++) {
-          if (domains.indexOf(projects[i].domains[j]) == -1) {
+          if (domains.indexOf(projects[i].domains[j]) === -1) {
             domains.push(projects[i].domains[j])
           }
         }
       }
 
       domains = domains.sort()
-      for (var i = 0; i < domains.length; i++) {
-        domains_checkbox.push(<label>
+      for (i = 0; i < domains.length; i++) {
+        domains_checkbox.push(<label key={ domains[i]+ "domainslabel" }>
                                 <input type='checkbox' value={ domains[i] } onChange={this.checkboxOnChange.bind(this, 'domains')} />
                                 { domains[i] }
                               </label>
@@ -138,18 +139,18 @@ class App extends Component {
     var cols = []
     for (var i = 0; i < projects.length; i++) {
       cols.push(
-        <Col sm={ 3 } md={ 3 } lg={ 3 }>
+        <Col key={ projects[i].name + 'col' } sm={ 3 } md={ 3 } lg={ 3 }>
           <ProjectCell data={ projects[i] }></ProjectCell>
         </Col>
       )
       if (i % 4 === 3) {
-        rows.push(<Row>
+        rows.push(<Row key={ 'gridrow-' + i}>
                     { cols }
                   </Row>)
         cols = []
       }
     }
-    rows.push(<Row>
+    rows.push(<Row key={ 'gridrow-' + i}>
                 { cols }
               </Row>)
     return rows
