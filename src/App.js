@@ -62,10 +62,16 @@ class App extends Component {
       this[selectedKey].delete(e.target.value)
     }
     var projects = this.state.data.projects.filter(o => {
-      if (this[selectedKey].size === 0) {
+      if (this.selectedSkills.size === 0) {
         return true
       }
-      return Array.from(this[selectedKey]).map(i => o[key].includes(i)).every(i => i === true)
+      return Array.from(this.selectedSkills).map(i => o.skills.includes(i)).every(i => i === true)
+    })
+    projects = projects.filter(o => {
+      if (this.selectedDomains.size === 0) {
+        return true
+      }
+      return Array.from(this.selectedDomains).map(i => o.domains.includes(i)).every(i => i === true)
     })
     this.setState({
       projects: projects,
