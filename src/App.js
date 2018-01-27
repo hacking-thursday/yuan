@@ -10,13 +10,18 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: {}
+      data: {},
+      projects: []
     };
+
+    this.selectedSkills = new Set([])
+    this.selectedDomains = new Set([])
 
     axios.get('https://raw.githubusercontent.com/hacking-thursday/yuan-data/master/autogen/data.json')
       .then(res => {
         this.setState({
-          data: res.data
+          data: res.data,
+          projects: res.data.projects,
         })
         this.forceUpdate()
       });
@@ -41,6 +46,33 @@ class App extends Component {
             </Row>)
   }
 
+  checkboxOnChange(key,e) {
+    var selectedKey = 'selectedSkills'
+    if (key === 'skills') {
+      selectedKey = 'selectedSkills'
+    }else if (key === 'domains') {
+      selectedKey = 'selectedDomains'
+    }else {
+      return
+    }
+
+    if (e.target.checked === true) {
+      this[selectedKey].add(e.target.value)
+    }else{
+      this[selectedKey].delete(e.target.value)
+    }
+    console.log(this.selectedSkills)
+    var projects = this.state.data.projects.filter(o => {
+      if (this[selectedKey].size === 0) {
+        return true
+      }
+      return Array.from(this[selectedKey]).map(i => o[key].includes(i)).every(i => i === true)
+    })
+    this.setState({
+      projects: projects,
+    })
+  }
+
   getSkills() {
     if (this.state.data.projects === undefined) {
       return ""
@@ -59,7 +91,7 @@ class App extends Component {
       skills = skills.sort()
       for (var i = 0; i < skills.length; i++) {
         skills_checkbox.push(<label>
-                               <input type='checkbox' value={ skills[i] } />
+                               <input type='checkbox' value={ skills[i] } onChange={this.checkboxOnChange.bind(this, 'skills')} />
                                { skills[i] }
                              </label>
         )
@@ -87,7 +119,7 @@ class App extends Component {
       domains = domains.sort()
       for (var i = 0; i < domains.length; i++) {
         domains_checkbox.push(<label>
-                                <input type='checkbox' value={ domains[i] } />
+                                <input type='checkbox' value={ domains[i] } onChange={this.checkboxOnChange.bind(this, 'domains')} />
                                 { domains[i] }
                               </label>
         )
@@ -98,10 +130,10 @@ class App extends Component {
   }
 
   getProjects() {
-    if (this.state.data.projects === undefined) {
+    if (this.state.projects === undefined) {
       return <Row></Row>
     }
-    var projects = this.state.data.projects
+    var projects = this.state.projects
     const rows = []
     var cols = []
     for (var i = 0; i < projects.length; i++) {
