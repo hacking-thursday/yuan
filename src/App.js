@@ -10,13 +10,18 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: {}
+      data: {},
+      projects: []
     };
+
+    this.selectedSkills = new Set([])
+    this.selectedDomains = new Set([])
 
     axios.get('https://raw.githubusercontent.com/hacking-thursday/yuan-data/master/autogen/data.json')
       .then(res => {
         this.setState({
-          data: res.data
+          data: res.data,
+          projects: res.data.projects,
         })
         this.forceUpdate()
       });
@@ -41,6 +46,38 @@ class App extends Component {
             </Row>)
   }
 
+  checkboxOnChange(key,e) {
+    var selectedKey = 'selectedSkills'
+    if (key === 'skills') {
+      selectedKey = 'selectedSkills'
+    }else if (key === 'domains') {
+      selectedKey = 'selectedDomains'
+    }else {
+      return
+    }
+
+    if (e.target.checked === true) {
+      this[selectedKey].add(e.target.value)
+    }else{
+      this[selectedKey].delete(e.target.value)
+    }
+    var projects = this.state.data.projects.filter(o => {
+      if (this.selectedSkills.size === 0) {
+        return true
+      }
+      return Array.from(this.selectedSkills).map(i => o.skills.includes(i)).every(i => i === true)
+    })
+    projects = projects.filter(o => {
+      if (this.selectedDomains.size === 0) {
+        return true
+      }
+      return Array.from(this.selectedDomains).map(i => o.domains.includes(i)).every(i => i === true)
+    })
+    this.setState({
+      projects: projects,
+    })
+  }
+
   getSkills() {
     if (this.state.data.projects === undefined) {
       return ""
@@ -48,18 +85,19 @@ class App extends Component {
       var projects = this.state.data.projects
       var skills = []
       var skills_checkbox = []
-      for (var i = 0; i < projects.length; i++) {
+      var i
+      for (i = 0; i < projects.length; i++) {
         for (var j = 0; j < projects[i].skills.length; j++) {
-          if (skills.indexOf(projects[i].skills[j]) == -1) {
+          if (skills.indexOf(projects[i].skills[j]) === -1) {
             skills.push(projects[i].skills[j])
           }
         }
       }
 
       skills = skills.sort()
-      for (var i = 0; i < skills.length; i++) {
-        skills_checkbox.push(<label>
-                               <input type='checkbox' value={ skills[i] } />
+      for (i = 0; i < skills.length; i++) {
+        skills_checkbox.push(<label key={ skills[i] + "skillslabel" } >
+                               <input type='checkbox' key={ skills[i] + "skillsinput" } value={ skills[i] } onChange={this.checkboxOnChange.bind(this, 'skills')} />
                                { skills[i] }
                              </label>
         )
@@ -76,18 +114,19 @@ class App extends Component {
       var projects = this.state.data.projects
       var domains = []
       var domains_checkbox = []
-      for (var i = 0; i < projects.length; i++) {
+      var i
+      for (i = 0; i < projects.length; i++) {
         for (var j = 0; j < projects[i].domains.length; j++) {
-          if (domains.indexOf(projects[i].domains[j]) == -1) {
+          if (domains.indexOf(projects[i].domains[j]) === -1) {
             domains.push(projects[i].domains[j])
           }
         }
       }
 
       domains = domains.sort()
-      for (var i = 0; i < domains.length; i++) {
-        domains_checkbox.push(<label>
-                                <input type='checkbox' value={ domains[i] } />
+      for (i = 0; i < domains.length; i++) {
+        domains_checkbox.push(<label key={ domains[i]+ "domainslabel" }>
+                                <input type='checkbox' value={ domains[i] } onChange={this.checkboxOnChange.bind(this, 'domains')} />
                                 { domains[i] }
                               </label>
         )
@@ -98,26 +137,26 @@ class App extends Component {
   }
 
   getProjects() {
-    if (this.state.data.projects === undefined) {
+    if (this.state.projects === undefined) {
       return <Row></Row>
     }
-    var projects = this.state.data.projects
+    var projects = this.state.projects
     const rows = []
     var cols = []
     for (var i = 0; i < projects.length; i++) {
       cols.push(
-        <Col sm={ 3 } md={ 3 } lg={ 3 }>
+        <Col key={ projects[i].name + 'col' } sm={ 3 } md={ 3 } lg={ 3 }>
           <ProjectCell data={ projects[i] }></ProjectCell>
         </Col>
       )
       if (i % 4 === 3) {
-        rows.push(<Row>
+        rows.push(<Row key={ 'gridrow-' + i}>
                     { cols }
                   </Row>)
         cols = []
       }
     }
-    rows.push(<Row>
+    rows.push(<Row key={ 'gridrow-' + i}>
                 { cols }
               </Row>)
     return rows
